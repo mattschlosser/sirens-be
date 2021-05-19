@@ -50,7 +50,7 @@ process.on('SIGINT', () => {
  * Returns a list of people who want to be notified, given a particular time
  */
 async function getNearbyClicks(time) {
-    return db.all("SELECT abs(strftime('%s', timestamp) - ?) as diff,  notifiers.* FROM notifiers where (strftime('%s', timestamp) - ?) > 300 and notified = 0", [time, time]);
+    return db.all("SELECT abs(strftime('%s', timestamp) - ?) as diff,  notifiers.* FROM notifiers where (strftime('%s', timestamp) - ?) < 300 and notified = 0", [time, time]);
 }
 
 // once a day, pull the data from edmoton, loop through
@@ -86,17 +86,16 @@ run = () => {
                         await db.run("UPDATE notifiers SET notified = 1 where id = ?", row.id);
                         console.log(row);
                     } catch (e) {
+			await db.run("UPDATE notifiers sET notified = 2 where id = ?", row.id);
                         console.error(e);
                     }
                 } else {
                     console.error(chalk.red("Something went wrong. Subscription was invalid"));
                 }
-                break;
             }
-            break;
         }
     })
 }
-setInterval(run, 24 * 60 * 60 * 1000)
+setInterval(run, 1 * 60 * 60 * 1000)
 run()
 app.listen(4000, () => console.log(chalk.greenBright("listening on 4ooo")));
