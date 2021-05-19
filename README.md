@@ -4,7 +4,7 @@ Simple script to alert users to why they heard sirens (fire trucks, in particiul
 
 This recivies a pushManager subscription from the front-end and periodically checks the Edmonton database for recent fire events. When an event later becomes available in the Edmonton database (usually within 24-48 hours), and the event occured within five minutes of when the user heard the sirens, the user will get a push notification with information about the event. 
 
-A demo is available at ...
+A demo is available at [i-hear-sirens.mattschlosser.me](https://i-hear-sirens.mattschlosser.me)
 
 
 ## Database schema. 
