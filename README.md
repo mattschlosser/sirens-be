@@ -7,8 +7,8 @@ This recivies a pushManager subscription from the front-end and periodically che
 A demo is available at [i-hear-sirens.mattschlosser.me](https://i-hear-sirens.mattschlosser.me)
 
 
-## Database schem (sqlite)
-```bash
+## Database schema (sqlite)
+```sql
 CREATE TABLE notifiers (id integer primary key autoincrement, subscription json, timestamp timestamp default current_timestamp, notified integer default 0);
 ```
 
