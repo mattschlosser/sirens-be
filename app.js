@@ -3,8 +3,8 @@ const cors = require('cors');
 const chalk = require('chalk')
 const app = express();
 const sqlite3 = require('sqlite3');
-const bodyParser = require('body-parser');
 const { open } = require('sqlite');
+const bodyParser = require('body-parser');
 const webpush = require('web-push')
 const { config } = require('dotenv');
 const { default: axios } = require('axios');
@@ -35,11 +35,18 @@ open({
 } );
 app.post('/save-subscription', async (req, res) => {
     console.log(req.body);
-    let i = await db.run("INSERT INTO notifiers (subscription) values (?)", JSON.stringify(req.body));
-    console.log(i);
-    res.json({message: 'success'})
+    try {
+        let i = await db.run("INSERT INTO notifiers (subscription, endpoint) values (?, ?)", [JSON.stringify(req.body), req.body.endpoint]);
+        console.log(i);
+        res.json({message: 'success'})
+    } catch(e) {
+        console.error(e);
+    }
 });
-
+app.post('/recent', async (req, res) => {
+    let i = await db.all("SELECT * FROM notifiers where endpoint = ?", req.body.endpoint);
+    res.json(i);
+})
 process.on('SIGINT', () => {
     console.log("Shutting down");
     db.close();
@@ -77,7 +84,7 @@ run = () => {
         // now we want to search for events within 5 minutes and notify
         for (let date of validDates) {
             let subscriptions = await getNearbyClicks(date.date.getTime()/1000);
-            console.log(subscriptions);
+            // console.log(subscriptions);
             for (let row of subscriptions) {
                 subscription = JSON.parse(row.subscription);
                 if (subscription) {
