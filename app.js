@@ -48,6 +48,11 @@ app.post('/save-subscription', async (req, res) => {
 });
 app.post('/recent', async (req, res) => {
     let i = await db.all("SELECT * FROM notifiers where endpoint = ? order by id desc", req.body.endpoint);
+    for (let j of i) {
+      if (j.reason) {
+         j.reason = JSON.parse(j.reason);
+      }
+    }
     res.json(i);
 })
 process.on('SIGINT', () => {
