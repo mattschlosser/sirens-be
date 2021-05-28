@@ -11,7 +11,10 @@ const { default: axios } = require('axios');
 config();
 app.use(cors());
 app.use(bodyParser.json())
-
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 const vapidKeys = {
     publicKey: process.env.VAPID_PUBLIC,
     privateKey: process.env.VAPID_PRIVATE
