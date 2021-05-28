@@ -47,7 +47,7 @@ app.post('/save-subscription', async (req, res) => {
     }
 });
 app.post('/recent', async (req, res) => {
-    let i = await db.all("SELECT * FROM notifiers where endpoint = ?", req.body.endpoint);
+    let i = await db.all("SELECT * FROM notifiers where endpoint = ? order by id desc", req.body.endpoint);
     res.json(i);
 })
 process.on('SIGINT', () => {
