@@ -90,7 +90,7 @@ run = () => {
                 if (subscription) {
                     try {
                         await webpush.sendNotification(subscription, JSON.stringify(date))
-                        await db.run("UPDATE notifiers SET notified = 1, reason = ?  where id = ?", [row.id, JSON.stringify(date)]);
+                        await db.run("UPDATE notifiers SET notified = 1, reason = ?  where id = ?", [JSON.stringify(date), row.id]);
                         console.log(row);
                     } catch (e) {
 			await db.run("UPDATE notifiers sET notified = 2 where id = ?", row.id);
