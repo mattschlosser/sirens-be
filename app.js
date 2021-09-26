@@ -72,15 +72,15 @@ async function getNearbyClicks(time) {
 run = () => {
     let date = new Date();
     // wait at least two days to ensure data is present
-    date.setDate(date.getDate() - 2);
+    date.setDate(date.getDate() - 1);
     let year = date.getFullYear();
-    let month = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'][date.getMonth()]
+    let month = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'][date.getMonth()]
     let day = ("0" + date.getDate()).slice(-2);
     // get the resource
-    axios.get(`https://data.edmonton.ca/resource/7hsn-idqi.json?dispatch_date=${day}-${month}-${year}`)
+    let url = `https://data.edmonton.ca/resource/7hsn-idqi.json?dispatch_date=${day}-${month}-${year}`;
+    axios.get(url)
     // .then
     .then(async res => {
-
         let validDates = [];
         let lastd
         for (let i of res.data) {
@@ -115,7 +115,6 @@ run = () => {
         }
     })
 }
-run();
 setInterval(run, 1 * 60 * 60 * 1000)
 run()
 app.listen(4000, () => console.log(chalk.greenBright("listening on 4ooo")));
