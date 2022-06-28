@@ -36,6 +36,10 @@ open({
     db = con;
     console.log(chalk.yellow("Database up"))
 } );
+
+app.get('/', (req, res) => {
+  res.send("Hello World!");
+});
 app.post('/save-subscription', async (req, res) => {
     console.log(req.body);
     try {
@@ -68,7 +72,7 @@ async function getNearbyClicks(time) {
     return db.all("SELECT abs(strftime('%s', timestamp) - ?) as diff,  notifiers.* FROM notifiers where (strftime('%s', timestamp) - ?) < 300 and notified = 0", [time, time]);
 }
 
-// once a day, pull the data from edmoton, loop through
+// once a day, pull the data from edmonton, loop through
 run = () => {
     let date = new Date();
     // wait at least two days to ensure data is present
