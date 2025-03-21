@@ -1,0 +1,14 @@
+services:
+  web:
+   build: .
+   image: sirens-be-web
+   environment:
+    - TZ=America/Edmonton
+   ports:
+    - 127.0.0.1:4000:4000
+   volumes:
+    - db:/app/db
+   restart: on-failure
+volumes:
+  db:
+
