@@ -9,6 +9,13 @@ services:
    volumes:
     - db:/app/db
    restart: on-failure
+   develop:
+    watch:
+      - action: sync+restart
+        path: .
+        target: /app
+        ignore:
+          - node_modules/
 volumes:
   db:
 
