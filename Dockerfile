@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-RUN apk add tzdata --no-cache
+RUN apk add --no-cache musl musl-utils musl-locales tzdata
 EXPOSE 3000
 USER node
 WORKDIR /app
